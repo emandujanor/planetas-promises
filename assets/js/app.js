@@ -1,5 +1,23 @@
 //console.log ("listo");
 var contenedor=document.getElementById("contenedor_planetas");
+var plantilla=
+  '<div class="row tarjeta">' +
+   '<div class="col s12 m6 offset-m3">' +
+    '<div class="card small">' +
+      '<div class="card-image">' +
+        '<img src="static/img/planeta.jpg">' +
+        '<span class="card-title">__name__</span>' +
+      '</div>' +
+      '<div class="card-content">' +
+        '<p><strong>Descubierto en el año: </strong>__año__<br>' +
+        '<strong>Por el Telescopio: </strong>__telescopio__<br>' +
+        '<strong>Radio: </strong>__radio__<br>' +
+        '</p>' +
+      '</div>' +
+    '</div>' +
+  '</div>' +
+'</div>';
+
 function getJSON(url){
   return new Promise(function(resolve, reject){
     var ajax = new XMLHttpRequest();
@@ -22,11 +40,16 @@ getJSON("data/earth-like-results.json")
     var planetaDescub =planetas.pl_disc;
     var planetaTelescopio = planetas.pl_telescope;
     var planetaRade= planetas.pl_rade;
+
     crearPlaneta();
     function crearPlaneta(planetas){
-      var planeta = document.createElement("div");
-      planeta.innerHTML= "<img src='https://dummyimage.com/200x200'> <br>"+ "<strong>Nombre:</strong> "+ planetaNombre + "<br><strong>Descubierto el Año: </strong> "+ planetaDescub + "<br>por el Telescopio " + planetaTelescopio + "<br><strong>Radio: </strong> "+ planetaRade + "<p> </p> <hr>" ;
-      contenedor_planetas.appendChild(planeta);
+      var plantillaFinal = " ";
+      plantillaFinal += plantilla.replace("__name__", planetaNombre)
+        .replace("__año__", planetaDescub)
+        .replace("__telescopio__", planetaTelescopio)
+        .replace("__radio__", planetaRade);
+        contenedor.innerHTML +=plantillaFinal;
+
     }
   })
 }))})
